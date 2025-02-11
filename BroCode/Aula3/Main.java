@@ -17,7 +17,8 @@ public class Main {
 
         System.out.println("Hello " + name);
         System.out.println("You are " + age + " years old");
-        System.out.println("You are " + height + "m²");
+        System.out.println("You are " + height + "m");
+
 
         scanner.close();
     }
