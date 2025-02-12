@@ -3,14 +3,9 @@
 #include <string.h>
 #include <stdbool.h>
 
-int FIM(){
-    return 2;
-}
-
 int verifica()
 {
     char texto[1000];
-    int fim;
 
     fgets(texto, sizeof(texto), stdin);
     texto[strcspn(texto, "\n")] = '\0';
@@ -25,17 +20,16 @@ int verifica()
             if (texto[i] != texto[tam - i - 1])
             {
                 i = strlen(texto) / 2;
-                return false;
+                return 0;
             }
             else
             {
-                return true;
+                return 1;
             }
         }
 
     }else{
-        fim = FIM();
-        return fim;
+        return 2;
     }
     
 }
@@ -48,11 +42,11 @@ int main()
     do
     {
         teste = verifica();
-        if (teste == true)
+        if (teste == 1)
         {
             printf("SIM\n");
         }
-        else if(teste == false)
+        else if(teste == 0)
         {
             printf("NÃO\n");
         }else{
