@@ -1,45 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
-int main(){
+int FIM(){
+    return 2;
+}
 
-    //Declaração das variáveis
-    char texto[100];
-    //char *point1 = texto;
-    //receber o texto
-    int teste;
-    //printf("Você disse: %s", texto);
+int verifica()
+{
+    char texto[1000];
+    int fim;
 
-    //while( texto != strcmp(texto,'FIM') ){
+    fgets(texto, sizeof(texto), stdin);
+    texto[strcspn(texto, "\n")] = '\0';
+    int tam = strlen(texto);
 
-    //printf("%d", tam);
-    do{
+    if (strcmp(texto, "FIM") != 0)
+    {
 
-        fgets(texto,sizeof(texto),stdin);
-        texto[strcspn(texto,"\n")]= '\0';
-        int tam = strlen(texto) - 1;
+        for (int i = 0; i < tam / 2; i++)
+        {
 
-        if(strcmp(texto,"FIM") != 0){ 
-
-            for(int i = 0; i < tam/2; i++){
-        
-                if(texto[i] != texto[tam - i]){
-                    i = strlen(texto) / 2;
-                    teste = 0;
-                }else{
-                    teste = 1;
-                }
-                
+            if (texto[i] != texto[tam - i - 1])
+            {
+                i = strlen(texto) / 2;
+                return false;
             }
-            if(teste == 1){
-                printf("SIM\n");
-            }else{
-                printf("NAO\n");
+            else
+            {
+                return true;
             }
         }
 
-    }while(strcmp(texto,"FIM") != 0);
+    }else{
+        fim = FIM();
+        return fim;
+    }
     
+}
+
+int main()
+{   
+    int teste;
+    int FIM = 0;
+
+    do
+    {
+        teste = verifica();
+        if (teste == true)
+        {
+            printf("SIM\n");
+        }
+        else if(teste == false)
+        {
+            printf("NÃO\n");
+        }else{
+            FIM = 1;
+        }
+
+    }while (FIM != 1);
+
     return 0;
 }
