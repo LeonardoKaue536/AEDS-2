@@ -19,7 +19,7 @@ public class Ciframento {
         Scanner ler = new Scanner(System.in);
         texto = ler.nextLine();
 
-        while (!(texto.equalsIgnoreCase("FIM"))) {
+        while (verifica(texto)) {
             StringBuilder mudar = new StringBuilder(texto);
             tam = texto.length();
             for (int i = 0; i < tam; i++){
