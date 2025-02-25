@@ -3,6 +3,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Ciframento",
+      "request": "launch",
+      "mainClass": "Ciframento.Ciframento",
+      "projectName": "AEDS-2_283627d7"
+    },
+    {
+      "type": "java",
+      "name": "Palindromo",
+      "request": "launch",
+      "mainClass": "palindromos.Palindromo",
+      "projectName": "AEDS-2_283627d7"
+    },
+    {
+      "type": "java",
+      "name": "Palindromo",
+      "request": "launch",
+      "mainClass": "Palindromo",
+      "projectName": "AEDS-2_283627d7"
+    },
+    {
+      "type": "java",
       "name": "Main",
       "request": "launch",
       "mainClass": "Main",
