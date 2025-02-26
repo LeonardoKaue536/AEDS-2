@@ -20,14 +20,14 @@ public class Ciframento {
         texto = ler.nextLine();
 
         while (verifica(texto)) {
-            StringBuilder mudar = new StringBuilder(texto);
+            char[] caracteres = texto.toCharArray();
             tam = texto.length();
             for (int i = 0; i < tam; i++){
                 if((texto.charAt(i) != '\uFFFD')){
-                    mudar.setCharAt(i, (char) (mudar.charAt(i) + 3));
+                    caracteres[i] += 3;
                 }
             }
-            texto = mudar.toString();
+            texto = new String(caracteres);
             System.out.println(texto);
             texto = ler.nextLine();
         }
