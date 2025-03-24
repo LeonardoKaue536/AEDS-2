@@ -3,6 +3,76 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Isrecusiva",
+      "request": "launch",
+      "mainClass": "TP1.Recusivos.Isrecusiva",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "Arquivo",
+      "request": "launch",
+      "mainClass": "TP1.arquivos.Arquivo",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "Paginahtml",
+      "request": "launch",
+      "mainClass": "TP1.paginahtml.Paginahtml",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "WebScraper",
+      "request": "launch",
+      "mainClass": "WebScraper",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "ExemploURL",
+      "request": "launch",
+      "mainClass": "ExemploURL",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "Validar",
+      "request": "launch",
+      "mainClass": "TP1.validar.Validar",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "Subtring",
+      "request": "launch",
+      "mainClass": "TP1.substring.Subtring",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "Contagem",
+      "request": "launch",
+      "mainClass": "TP1.Contagem.Contagem",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "Anagrama",
+      "request": "launch",
+      "mainClass": "Anagrama.Anagrama",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
+      "name": "Anagrama",
+      "request": "launch",
+      "mainClass": "TP1.Anagrama.Anagrama",
+      "projectName": "TPS_4eb7071f"
+    },
+    {
+      "type": "java",
       "name": "Somar",
       "request": "launch",
       "mainClass": "somarDigitos.Somar",
