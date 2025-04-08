@@ -12,7 +12,7 @@ int somar(char texto[], int total, int i) {
     return somar(texto, total, i + 1);
 }
 
-int verifica(char texto[]) {
+int verifica(char *texto) {
 
     if (texto[0] == 'F' && texto[1] == 'I' && texto[2] == 'M' && texto[3] == '\0') {
         return 0; 

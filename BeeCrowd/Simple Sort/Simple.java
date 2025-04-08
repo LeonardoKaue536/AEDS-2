@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main{
+public class Simple{
 
     public static void ordenar(int[] num1){
         int n = num1.length;
