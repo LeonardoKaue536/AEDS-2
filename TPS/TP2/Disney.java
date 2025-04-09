@@ -1,5 +1,5 @@
 import java.io.BufferedReader;
-import java.io.File;
+//import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -101,28 +101,24 @@ class Show{
 
     public static void ler(){
         
-        File file = new File("disneyplus.csv");
+        String endereco = "disney.csv";
         
         try{
 
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            
+            BufferedReader file = new BufferedReader(new FileReader(endereco));
+            String line;
+            while((line = file.readLine())!= null){
+                
+            }
 
+            file.close();
+        }catch(IOException e){
 
-        }catch( IOException e){
-
+            e.printStackTrace();
 
         }
-
-        do{
-
-            
-            
-
-
-        }while();
         
-        
+
         
     }
 }
