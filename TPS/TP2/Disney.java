@@ -4,8 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-class Show{
-    
+class Show {
+
     private String show_id;
     private String type;
     private String title;
@@ -18,107 +18,131 @@ class Show{
     private String duration;
     private String[] listedin;
 
-    //Construtor
-    public Show(){
+    // Construtor
+    public Show() {
 
     }
-    
-    //get
+
+    // get
     public String getShow_id() {
         return show_id;
     }
+
     public String getType() {
         return type;
     }
-    public String getTitle(){
+
+    public String getTitle() {
         return title;
     }
+
     public String getDirector() {
         return director;
     }
+
     public String[] getCast() {
         return cast;
     }
-    public String getCountry(){
+
+    public String getCountry() {
         return country;
     }
+
     public Date getDate() {
         return date;
     }
+
     public int getYear() {
         return year;
     }
-    public String getRating(){
+
+    public String getRating() {
         return rating;
     }
+
     public String getDuration() {
         return duration;
     }
+
     public String[] getListedin() {
         return listedin;
     }
-    
 
-    //set
+    // set
     public void setShow_id(String show_id) {
         this.show_id = show_id;
     }
+
     public void setType(String type) {
         this.type = type;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public void setDirector(String director) {
         this.director = director;
     }
+
     public void setCast(String[] cast) {
         this.cast = cast;
     }
+
     public void setCountry(String country) {
         this.country = country;
     }
+
     public void setDate(Date date) {
         this.date = date;
     }
+
     public void setYear(int year) {
         this.year = year;
     }
+
     public void setRating(String rating) {
         this.rating = rating;
     }
+
     public void setDuration(String duration) {
         this.duration = duration;
     }
+
     public void setListedin(String[] listedin) {
         this.listedin = listedin;
     }
-    
 
-    public static void imprimir(){
+    public static void imprimir() {
+
+        System.out.println();
 
     }
 
-    public static void ler(){
-        
+    public void ler() {
         String endereco = "disney.csv";
-        
-        try{
 
+        try {
             BufferedReader file = new BufferedReader(new FileReader(endereco));
             String line;
-            while((line = file.readLine())!= null){
-                
+
+            while ((line = file.readLine()) != null) {
+
             }
 
-            file.close();
-        }catch(IOException e){
-
+        } catch (IOException e) {
             e.printStackTrace();
-
         }
-        
+    }
+}
 
-        
+public class Disney {
+    public static void main(String[] args) {
+
+        Show show = new Show();
+
+        show.ler();
+        show.imprimir();
+
     }
 }
