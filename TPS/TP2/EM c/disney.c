@@ -1,0 +1,366 @@
+/*
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <ctype.h>
+#include <stdbool.h>
+
+#define MAX_LINE 1000
+#define MAX_FIELD 200
+#define MAX_ARRAY 50
+
+typedef struct {
+    char show_id[MAX_FIELD];
+    char type[MAX_FIELD];
+    char title[MAX_FIELD];
+    char director[MAX_FIELD];
+    char** cast;
+    int cast_size;
+    char country[MAX_FIELD];
+    char date_added[MAX_FIELD];  // Armazenaremos como string
+    int year;
+    char rating[MAX_FIELD];
+    char duration[MAX_FIELD];
+    char** listedin;
+    int listedin_size;
+} Show;
+
+// Remove aspas e limpa espaços
+void clean_field(char* str) {
+    if (str == NULL) return;
+    
+    int j = 0;
+    bool in_quotes = false;
+    
+    for (int i = 0; str[i]; i++) {
+        if (str[i] == '"') {
+            in_quotes = !in_quotes;
+            continue;
+        }
+        str[j++] = str[i];
+    }
+    str[j] = '\0';
+    
+    // Remove espaços extras no início/fim
+    while (j > 0 && isspace(str[j-1])) str[--j] = '\0';
+    char* start = str;
+    while (isspace(*start)) start++;
+    if (start != str) memmove(str, start, strlen(start) + 1);
+}
+
+// Divide string por delimitador
+char** split(const char* str, const char* delim, int* size) {
+    if (str == NULL || strlen(str) == 0) {
+        *size = 0;
+        return NULL;
+    }
+
+    char* copy = strdup(str);
+    char* token = strtok(copy, delim);
+    char** result = NULL;
+    *size = 0;
+
+    while (token != NULL) {
+        result = realloc(result, (*size + 1) * sizeof(char*));
+        result[*size] = strdup(token);
+        clean_field(result[*size]);
+        (*size)++;
+        token = strtok(NULL, delim);
+    }
+
+    free(copy);
+    return result;
+}
+
+// Imprime dados do Show no formato exato do Java
+void imprimir(Show* s) {
+    printf("=> %s ## %s ## %s ## ", s->show_id, s->title, s->type);
+    printf("%s ## ", strlen(s->director) > 0 ? s->director : "NaN");
+
+    // Elenco
+    printf("[");
+    if (s->cast_size > 0) {
+        for (int i = 0; i < s->cast_size; i++) {
+            printf("%s", s->cast[i]);
+            if (i < s->cast_size - 1) printf(", ");
+        }
+    } else {
+        printf("NaN");
+    }
+    printf("] ## ");
+
+    // País
+    printf("%s ## ", strlen(s->country) > 0 ? s->country : "NaN");
+
+    // Data - agora usando a string original
+    printf("%s ## ", strlen(s->date_added) > 0 ? s->date_added : "NaN");
+
+    // Ano, Classificação e Duração
+    printf("%d ## %s ## %s ## ", s->year, 
+           strlen(s->rating) > 0 ? s->rating : "NaN", 
+           strlen(s->duration) > 0 ? s->duration : "NaN");
+
+    // Gêneros
+    printf("[");
+    if (s->listedin_size > 0) {
+        for (int i = 0; i < s->listedin_size; i++) {
+            printf("%s", s->listedin[i]);
+            if (i < s->listedin_size - 1) printf(", ");
+        }
+    } else {
+        printf("NaN");
+    }
+    printf("] ##\n");
+}
+
+// Lê dados do CSV seguindo a mesma lógica do Java
+Show* ler(int* total) {
+    FILE* file = fopen("C:/Users/Leonardo/Desktop/Leleo/programs/AEDS-2/TPS/TP2/EM c/disneyplus.csv", "r");
+    if (!file) {
+        perror("Erro ao abrir o arquivo");
+        *total = 0;
+        return NULL;
+    }
+
+    Show* shows = NULL;
+    int count = 0;
+    char linha[MAX_LINE];
+
+    fgets(linha, sizeof(linha), file); // Pula cabeçalho
+
+    while (fgets(linha, sizeof(linha), file)) {
+        char* tokens[11];
+        char* tmp = strdup(linha);
+        char* ptr = strtok(tmp, ",");
+
+        for (int i = 0; i < 11 && ptr != NULL; i++) {
+            tokens[i] = ptr;
+            ptr = strtok(NULL, ",");
+        }
+
+        Show s = {0};
+        
+        // Processa cada campo igual ao Java
+        strncpy(s.show_id, tokens[0], MAX_FIELD);
+        clean_field(s.show_id);
+        
+        strncpy(s.type, tokens[1], MAX_FIELD);
+        clean_field(s.type);
+        
+        strncpy(s.title, tokens[2], MAX_FIELD);
+        clean_field(s.title);
+        
+        strncpy(s.director, tokens[3], MAX_FIELD);
+        clean_field(s.director);
+
+        // Cast - trata como no Java
+        if (strlen(tokens[4]) > 0) {
+            s.cast = split(tokens[4], ";", &s.cast_size);
+        } else {
+            s.cast = malloc(sizeof(char*));
+            s.cast[0] = strdup("NaN");
+            s.cast_size = 1;
+        }
+        
+        strncpy(s.country, tokens[5], MAX_FIELD);
+        clean_field(s.country);
+
+        // Data - armazena como string original
+        strncpy(s.date_added, tokens[6], MAX_FIELD);
+        clean_field(s.date_added);
+        
+        // Ano - trata como no Java
+        s.year = atoi(tokens[7]);
+        
+        strncpy(s.rating, tokens[8], MAX_FIELD);
+        clean_field(s.rating);
+        
+        strncpy(s.duration, tokens[9], MAX_FIELD);
+        clean_field(s.duration);
+        
+        // Listed in - trata como no Java
+        if (strlen(tokens[10]) > 0) {
+            s.listedin = split(tokens[10], ",", &s.listedin_size);
+        } else {
+            s.listedin = malloc(sizeof(char*));
+            s.listedin[0] = strdup("NaN");
+            s.listedin_size = 1;
+        }
+
+        shows = realloc(shows, (count + 1) * sizeof(Show));
+        shows[count++] = s;
+
+        free(tmp);
+    }
+
+    fclose(file);
+    *total = count;
+    return shows;
+}
+
+int main() {
+    int total;
+    Show* shows = ler(&total);
+
+    char input[MAX_FIELD];
+    fgets(input, sizeof(input), stdin);
+    input[strcspn(input, "\n")] = 0;
+
+    while (strcmp(input, "FIM") != 0) {
+        for (int i = 0; i < total; i++) {
+            if (strcmp(shows[i].show_id, input) == 0) {
+                imprimir(&shows[i]);
+                break;
+            }
+        }
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = 0;
+    }
+
+    // Liberar memória
+    for (int i = 0; i < total; i++) {
+        for (int j = 0; j < shows[i].cast_size; j++) free(shows[i].cast[j]);
+        free(shows[i].cast);
+        for (int j = 0; j < shows[i].listedin_size; j++) free(shows[i].listedin[j]);
+        free(shows[i].listedin);
+    }
+    free(shows);
+
+    return 0;
+}
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_LINE 1024
+#define MAX_SHOWS 1500   // Ajuste para 1500 registros
+#define MAX_CAMPO 12     // Máximo de campos por linha CSV
+
+// Função para dividir a linha CSV, respeitando aspas
+int parse_csv_line(const char *linha, char campos[][MAX_LINE], int max_campos) {
+    int i = 0, campo_atual = 0;
+    int dentro_aspas = 0;
+    char buffer[MAX_LINE] = {0};
+    int pos = 0;
+
+    while (linha[i] != '\0' && campo_atual < max_campos) {
+        if (linha[i] == '"' && (i == 0 || linha[i - 1] != '\\')) {
+            dentro_aspas = !dentro_aspas;
+        } else if (linha[i] == ',' && !dentro_aspas) {
+            buffer[pos] = '\0';
+            strncpy(campos[campo_atual++], buffer, MAX_LINE);
+            pos = 0;
+            buffer[0] = '\0';
+        } else {
+            buffer[pos++] = linha[i];
+        }
+        i++;
+    }
+
+    // Último campo
+    buffer[pos] = '\0';
+    strncpy(campos[campo_atual++], buffer, MAX_LINE);
+
+    return campo_atual;
+}
+
+typedef struct {
+    char show_id[MAX_LINE];
+    char type[MAX_LINE];
+    char title[MAX_LINE];
+    char director[MAX_LINE];
+    char cast[MAX_LINE];
+    char country[MAX_LINE];
+    char date[MAX_LINE];
+    int year;
+    char rating[MAX_LINE];
+    char duration[MAX_LINE];
+    char listedin[MAX_LINE];
+} Show;
+
+void imprimir(Show s) {
+    printf("=> %s ## %s ## %s ## %s ## [%s] ## %s ## %s ## %d ## %s ## %s ## [%s] ##\n", 
+        s.show_id, s.title, s.type, s.director, s.cast, s.country, s.date, 
+        s.year, s.rating, s.duration, s.listedin);
+}
+
+void ler_csv(Show *shows, int *count) {
+    FILE *file = fopen("disneyplus.csv", "r");
+    char linha[MAX_LINE];
+    
+    if (!file) {
+        printf("Erro ao abrir o arquivo CSV!\n");
+        return;
+    }
+    
+    // Ignora o cabeçalho
+    fgets(linha, MAX_LINE, file);
+    
+    // Lê as linhas do CSV
+    while (fgets(linha, MAX_LINE, file)) {
+        char campos[MAX_CAMPO][MAX_LINE];
+        int num_campos = parse_csv_line(linha, campos, MAX_CAMPO);
+
+        if (num_campos >= 11 && *count < MAX_SHOWS) {
+            strncpy(shows[*count].show_id, campos[0], MAX_LINE);
+            strncpy(shows[*count].type, campos[1], MAX_LINE);
+            strncpy(shows[*count].title, campos[2], MAX_LINE);
+            strncpy(shows[*count].director, campos[3], MAX_LINE);
+            strncpy(shows[*count].cast, campos[4], MAX_LINE);
+            strncpy(shows[*count].country, campos[5], MAX_LINE);
+            strncpy(shows[*count].date, campos[6], MAX_LINE);
+            shows[*count].year = atoi(campos[7]);
+            strncpy(shows[*count].rating, campos[8], MAX_LINE);
+            strncpy(shows[*count].duration, campos[9], MAX_LINE);
+            strncpy(shows[*count].listedin, campos[10], MAX_LINE);
+            (*count)++;
+        } else {
+            // Caso tenha mais de 1500 registros, não leia mais
+            if (*count >= MAX_SHOWS) {
+                break;
+            }
+        }
+    }
+
+    fclose(file);
+}
+
+int main() {
+    Show shows[MAX_SHOWS];  // Aumentando o número máximo de shows
+    int count = 0;
+    
+    ler_csv(shows, &count);
+    
+    char input[MAX_LINE];
+    printf("Digite o show_id ou 'FIM' para encerrar: ");
+    while (1) {
+        fgets(input, MAX_LINE, stdin);
+        input[strcspn(input, "\n")] = '\0';  // Remove a nova linha do final
+
+        if (strcmp(input, "FIM") == 0) {
+            break;
+        }
+
+        int encontrado = 0;
+        for (int i = 0; i < count; i++) {
+            if (strcmp(shows[i].show_id, input) == 0) {
+                imprimir(shows[i]);
+                encontrado = 1;
+                break;
+            }
+        }
+        
+        if (!encontrado) {
+            printf("ERRO: Show não encontrado.\n");
+        }
+
+        printf("Digite o show_id ou 'FIM' para encerrar: ");
+    }
+    
+    return 0;
+}
+

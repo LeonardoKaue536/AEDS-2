@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Procura",
+      "request": "launch",
+      "mainClass": "Procura",
+      "projectName": "TP2_7fa70246"
+    },
+    {
+      "type": "java",
+      "name": "Disney",
+      "request": "launch",
+      "mainClass": "Disney",
+      "projectName": "TP2_7fa70246"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/Leonardo/Desktop/Leleo/programs/AEDS-2/TPS/TP2",
+      "program": "c:/Users/Leonardo/Desktop/Leleo/programs/AEDS-2/TPS/TP2/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
