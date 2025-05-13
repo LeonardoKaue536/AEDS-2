@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Jogador",
+      "request": "launch",
+      "mainClass": "Jogadoresfute.Jogador",
+      "projectName": "BeeCrowd_9e262ca3"
+    },
+    {
+      "type": "java",
+      "name": "Chamada",
+      "request": "launch",
+      "mainClass": "ListaDeChamada.Chamada",
+      "projectName": "BeeCrowd_9e262ca3"
+    },
+    {
+      "type": "java",
       "name": "Noel",
       "request": "launch",
       "mainClass": "ListaPapainoel.Noel",
